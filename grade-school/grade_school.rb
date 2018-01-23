@@ -8,14 +8,12 @@ class School
   end
 
   def add(name, grade)
-    raise ArgumentError, "Grade must be between 1 and 7" unless (1..7) === grade
-    @roster[grade] << name
-    @roster[grade].sort!
+    @roster[grade].push(name).sort!
   end
 
   def students_by_grade
     @roster.sort.map do |grade, students|
-      { grade: grade, students: @roster[grade].dup }
+      { grade: grade, students: students.dup }
     end
   end
 end
