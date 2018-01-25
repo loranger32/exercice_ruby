@@ -1,53 +1,61 @@
-require 'pry'
-
 class Game
-  attr_reader :raw_throws, :formatted_frames
+  attr_accessor :frames
 
   class BowlingError < StandardError ; end
 
   def initialize
-    @raw_throws = []
-    @formatted_frames = []
+    @frames = [[]]
   end
     
   def roll(pins)
+    raise BowlingError if frames.size == 10 && frames.last.size == 2 && 
+      !is_strike?(frames.last) && !is_spare?(frames.last)
     raise BowlingError unless (0..10) === pins
-    raw_throws << pins
+    if pins == 10
+      if frames.last.empty? 
+        frames.last << 10
+        frames.last << 0
+      elsif frames.last.size == 2
+        frames << [10, 0]
+      else
+        raise BowlingError
+      end
+    else
+      if frames.last.size < 2
+        raise BowlingError if (pins + frames.last.sum > 10)
+        frames.last << pins
+      else
+        frames << [pins]
+      end
+    end
   end
 
   def score
-    raise BowlingError if raw_throws.empty?
-    format_frames
-    
+    raise BowlingError if frames.size < 10
+    raise BowlingError if frames.size == 10 && (is_strike?(frames.last) ||
+      is_spare?(frames.last))
+    raise BowlingError if frames.size == 11 && is_strike?(frames[-2]) &&
+      is_strike?(frames.last)
+
     result = 0
-    formatted_frames[0..9].each_with_index do |frame_score, index|
-      if is_strike?(frame_score)
+    frames[0..9].each_with_index do |frame, index|
+      if is_strike?(frame)
         result += (10 + calculate_strike_bonus_at(index))
-      elsif is_spare?(frame_score)
-        result += (10 + formatted_frames[index + 1][0])
+      elsif is_spare?(frame)
+        result += (10 + frames[index + 1][0])
       else
-        result += frame_score.sum
+        result += frame.sum
       end
     end
     result
-    #formatted_frames.size > 10 ? result += formatted_frames.last.sum : result
   end
 
   def calculate_strike_bonus_at(index)
-    if is_strike?(formatted_frames[index + 1])
-      formatted_frames[index + 1].sum + formatted_frames[index + 2][0]
+    if is_strike?(frames[index + 1])
+      frames[index + 1].sum + frames[index + 2][0]
     else
-      formatted_frames[index + 1].sum
+      frames[index + 1].sum
     end
-  end
-
-  def format_frames
-    raw_throws.each_with_index do |pins, index|
-      if pins == 10
-        raw_throws.insert(index + 1, 0)
-      end
-    end
-    raw_throws.each_slice(2) { |frame| formatted_frames << frame }
   end
 
   def is_spare?(frame)
@@ -57,16 +65,8 @@ class Game
   def is_strike?(frame)
     frame[0] == 10 && frame[1] == 0
   end
-
-  def record(rolls)
-    rolls.each { |pins| roll(pins) }
-  end
 end
 
-game = Game.new
-game.record([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 3, 7])
-game.format_frames
-p game
 module BookKeeping
   VERSION = 3
 end
