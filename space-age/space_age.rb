@@ -13,36 +13,10 @@ class SpaceAge
     @age_in_seconds = age_in_seconds
   end
 
-  def on_earth
-    calculate_age_on(:earth)
-  end
-
-  def on_mercury
-    calculate_age_on(:mercury)
-  end
-
-  def on_venus
-    calculate_age_on(:venus)
-  end
-
-  def on_mars
-    calculate_age_on(:mars)
-  end
-
-  def on_jupiter
-    calculate_age_on(:jupiter)
-  end
-
-  def on_saturn
-    calculate_age_on(:saturn)
-  end
-
-  def on_uranus
-    calculate_age_on(:uranus)
-  end
-
-  def on_neptune
-    calculate_age_on(:neptune)
+  ORBITAL_PERIODS.each do |planet, _| 
+    define_method "on_#{planet}" do
+      calculate_age_on(planet.to_sym)
+    end
   end
 
   private
