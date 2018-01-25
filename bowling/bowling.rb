@@ -1,7 +1,3 @@
-class Frame
-
-end
-
 class Game
   attr_accessor :frames
 
