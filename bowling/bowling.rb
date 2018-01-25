@@ -1,3 +1,7 @@
+class Frame
+
+end
+
 class Game
   attr_accessor :frames
 
@@ -8,9 +12,7 @@ class Game
   end
     
   def roll(pins)
-    raise BowlingError if frames.size == 10 && frames.last.size == 2 && 
-      !is_strike?(frames.last) && !is_spare?(frames.last)
-    raise BowlingError unless (0..10) === pins
+    ensure_roll_is_valid_with(pins)
     if pins == 10
       if frames.last.empty? 
         frames.last << 10
@@ -31,12 +33,7 @@ class Game
   end
 
   def score
-    raise BowlingError if frames.size < 10
-    raise BowlingError if frames.size == 10 && (is_strike?(frames.last) ||
-      is_spare?(frames.last))
-    raise BowlingError if frames.size == 11 && is_strike?(frames[-2]) &&
-      is_strike?(frames.last)
-
+    ensure_game_is_finished
     result = 0
     frames[0..9].each_with_index do |frame, index|
       if is_strike?(frame)
@@ -48,6 +45,22 @@ class Game
       end
     end
     result
+  end
+
+  private
+  
+  def ensure_game_is_finished
+    raise BowlingError if frames.size < 10
+    raise BowlingError if frames.size == 10 && (is_strike?(frames.last) ||
+      is_spare?(frames.last))
+    raise BowlingError if frames.size == 11 && is_strike?(frames[-2]) &&
+      is_strike?(frames.last)
+  end
+
+  def ensure_roll_is_valid_with(pins)
+    raise BowlingError if frames.size == 10 && frames.last.size == 2 && 
+      !is_strike?(frames.last) && !is_spare?(frames.last)
+    raise BowlingError unless (0..10) === pins
   end
 
   def calculate_strike_bonus_at(index)
