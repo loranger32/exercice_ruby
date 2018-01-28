@@ -1,6 +1,4 @@
 class Clock
-  attr_reader :formatted_time
-
   def self.at(hours, minutes)
     new(hours, minutes)
   end
@@ -8,12 +6,7 @@ class Clock
   def initialize(hours, minutes)
     @hours = (hours + (minutes / 60)) % 24
     @minutes = minutes % 60
-  end
-
-  def format(*time)
-    hours = sprintf("%2.2d", time[0])
-    minutes = sprintf("%2.2d", time[1])
-    "#{hours}:#{minutes}"
+    @formatted_time = to_s
   end
 
   def +(minutes)
@@ -22,20 +15,18 @@ class Clock
   end
 
   def ==(other)
-    @hours == other.hours && @minutes == other.minutes
+    formatted_time == other.formatted_time
   end
 
   def to_s
-    format(@hours, @minutes)
+    format("%2.2d:%2.2d", @hours, @minutes)
   end
 
   protected
 
-  attr_reader :hours, :minutes
+  attr_reader :formatted_time, :hours, :minutes
 end
 
 module BookKeeping
   VERSION = 2
 end
-
-p Clock.at(8, 0)
