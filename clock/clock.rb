@@ -6,7 +6,6 @@ class Clock
   def initialize(hours, minutes)
     @hours = (hours + (minutes / 60)) % 24
     @minutes = minutes % 60
-    @formatted_time = to_s
   end
 
   def +(minutes)
@@ -15,16 +14,12 @@ class Clock
   end
 
   def ==(other)
-    formatted_time == other.formatted_time
+    to_s == other.to_s
   end
 
   def to_s
     format("%2.2d:%2.2d", @hours, @minutes)
   end
-
-  protected
-
-  attr_reader :formatted_time, :hours, :minutes
 end
 
 module BookKeeping
