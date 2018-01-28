@@ -1,16 +1,14 @@
 class Clock
   def self.at(hours, minutes)
-    new(hours, minutes)
+    new((hours * 60) + minutes)
   end
 
-  def initialize(hours, minutes)
-    @hours = (hours + (minutes / 60)) % 24
-    @minutes = minutes % 60
+  def initialize(minutes)
+    @minutes = minutes % (24 * 60)
   end
 
   def +(minutes)
-    sup_hours, sup_minutes = minutes.divmod(60)
-    self.class.new(@hours + sup_hours, @minutes + sup_minutes)
+    self.class.new(@minutes + minutes)
   end
 
   def ==(other)
@@ -18,7 +16,7 @@ class Clock
   end
 
   def to_s
-    format("%2.2d:%2.2d", @hours, @minutes)
+    format("%2.2d:%2.2d" % @minutes.divmod(60))
   end
 end
 
