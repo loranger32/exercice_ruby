@@ -52,7 +52,7 @@ class AlphameticsTest < Minitest::Test
   # but an optimised solution can solve it fairly quickly.
   # (It's OK to submit your solution without getting this test to pass.)
   def test_puzzle_with_eight_letters
-    #skip
+    skip
     input = 'SEND + MORE == MONEY'
     expected = { 'D' => 7, 'E' => 5, 'M' => 1, 'N' => 6,
                  'O' => 0, 'R' => 8, 'S' => 9, 'Y' => 2 }
