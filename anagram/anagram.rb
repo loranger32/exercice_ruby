@@ -8,7 +8,7 @@ class Anagram
   def match(targets)
     targets.select do |target|
       word.downcase.chars.sort == target.downcase.chars.sort &&
-        word.downcase != target.downcase
+        !word.casecmp?(target)
     end
   end
 end

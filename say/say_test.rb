@@ -25,7 +25,7 @@ class SayTest < Minitest::Test
   end
 
   def test_twenty
-    skip
+    #skip
     question = 20
     assert_equal('twenty', Say.new(question).in_english)
   end
@@ -55,37 +55,37 @@ class SayTest < Minitest::Test
   end
 
   def test_one_thousand
-    skip
+    #skip
     question = 1_000
     assert_equal('one thousand', Say.new(question).in_english)
   end
 
   def test_one_thousand_two_hundred_thirty_four
-    skip
+    #skip
     question = 1_234
     assert_equal('one thousand two hundred thirty-four', Say.new(question).in_english)
   end
 
   def test_one_million
-    skip
+    #skip
     question = 1_000_000
     assert_equal('one million', Say.new(question).in_english)
   end
 
   def test_one_million_two_thousand_three_hundred_forty_five
-    skip
+    #skip
     question = 1_002_345
     assert_equal('one million two thousand three hundred forty-five', Say.new(question).in_english)
   end
 
   def test_one_billion
-    skip
+    #skip
     question = 1_000_000_000
     assert_equal('one billion', Say.new(question).in_english)
   end
 
   def test_a_big_number
-    skip
+    #skip
     question = 987_654_321_123
     assert_equal('nine hundred eighty-seven billion six hundred fifty-four million three hundred twenty-one thousand one hundred twenty-three', Say.new(question).in_english)
   end

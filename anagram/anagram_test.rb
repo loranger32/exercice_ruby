@@ -1,4 +1,6 @@
 require 'minitest/autorun'
+require 'minitest/reporters'
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative 'anagram'
 
 # Common test data version: 1.0.1 196fc1a
