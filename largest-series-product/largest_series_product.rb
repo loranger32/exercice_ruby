@@ -1,42 +1,44 @@
 class Series
-  attr_reader :digits
-
   def initialize(string)
     raise ArgumentError if string.match?(/[a-z]/i)
     @digits = string.chars.map(&:to_i)
   end
 
-  def largest_product(int)
-    return 1 if int.zero?
-    return 0 if digits == [0]
+  def largest_product(slice_length)
+    return 1 if slice_length.zero?
+    return 0 if digits_are_all_zeros?
     
-    check_arguments(int)
-      
-    result = []
-    digits.each_cons(int) do |serie|
-      result << serie.reduce(:*)
-    end
-    result.max
+    validate_arguments(slice_length)
+    
+    compute_max_product(slice_length)
   end
 
   private
 
-  def check_arguments(int)
-    raise ArgumentError if argument_bigger_than_string_size?(int) ||
-      empty_string_and_nonzero_span?(int) || int < 0
+  attr_reader :digits
+
+  def digits_are_all_zeros?
+    !digits.empty? && digits.all? { |digit| digit == 0 }
   end
 
-  def empty_string_and_nonzero_span?(int)
-    digits == [] && int > 0
+  def validate_arguments(slice_length)
+    raise ArgumentError if argument_bigger_than_string_size?(slice_length) ||
+      empty_string_and_nonzero_span?(slice_length) || slice_length < 0
   end
 
-  def argument_bigger_than_string_size?(int)
-    int > digits.size
+  def empty_string_and_nonzero_span?(slice_length)
+    digits.empty? && slice_length > 0
+  end
+
+  def argument_bigger_than_string_size?(slice_length)
+    slice_length > digits.size
+  end
+
+  def compute_max_product(slice_length)
+    result = []
+    digits.each_cons(slice_length) do |serie|
+      result << serie.reduce(:*)
+    end
+    result.max
   end
 end
-
-#invalid_character_in_digits
-
-p a = Series.new('')
-
-#p a.digits.each_cons(3) { |g| p g.reduce(:*) }
