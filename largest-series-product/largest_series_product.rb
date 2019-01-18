@@ -3,10 +3,11 @@ class Series
 
   def initialize(string)
     raise ArgumentError if string.match?(/[a-z]/i)
-    @digits = string.to_i.digits.reverse
+    @digits = string.chars.map(&:to_i)
   end
 
   def largest_product(int)
+    return 1 if int.zero?
     return 0 if digits == [0]
     
     check_arguments(int)

@@ -56,12 +56,12 @@ class LargestSeriesProductTest < Minitest::Test
   end
 
   def test_reports_1_for_empty_string_and_empty_product_0_span
-    skip
+    #skip
     assert_equal 1, Series.new('').largest_product(0)
   end
 
   def test_reports_1_for_nonempty_string_and_empty_product_0_span
-    skip
+    #skip
     assert_equal 1, Series.new('123').largest_product(0)
   end
 
