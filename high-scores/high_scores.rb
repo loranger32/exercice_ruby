@@ -19,11 +19,13 @@ class HighScores
 
   def report
     output = "Your latest score was #{latest}. "
-    if latest == personal_best
-      output + "That's your personal best!"
-    else
-      difference = personal_best - latest
-      output + "That's #{difference} short of your personal best!"
-    end
+    output + compare_to_best
+  end
+
+  private
+
+  def compare_to_best
+    difference = personal_best - latest
+    difference.zero? ? "That's your personal best!" : "That's #{difference} short of your personal best!"
   end
 end
