@@ -1,41 +1,33 @@
-# Input:
-# - an integer of base 10
-
-# Output:
-# - An array of strings
-
-# Processing:
-# - Convert secret code table into decimal system
-# - substract recursively the values of the code table from the input value,
-#   starting with the biggest :
-#     - If result is positive, add code
-#     - else skip to next (smaller) code table value
-
-# If the biggest value can be susbtracted, add a flag to reverse the code at the end.
-
 class SecretHandshake
-  CODE_TABLE = { 1 => 'wink', 2 => 'double blink', 4 => 'close your eyes',
-                  8 => 'jump' }
+  CODE_TABLE = { 8 => 'jump', 4 => 'close your eyes', 2 => 'double blink',
+                 1 => 'wink' }
   REVERSE_CODE = 16
 
-  def initialize(code)
-    @code    = code.to_i
-    @result  = []
-    @reverse = need_to_reverse?
+  def initialize(input)
+    @code_in_number = input.to_i
+    @code_in_signs  = []
+    @reverse_code = need_to_reverse?
   end
 
   def commands
-    return @result if @code == 0
-
-    CODE_TABLE.each do |code, value|
-      if @code - code
+    translate_input_in_signs
+    @reverse_code ? @code_in_signs : @code_in_signs.reverse
   end
 
   private
 
+  def translate_input_in_signs
+    CODE_TABLE.each do |code, value|
+      if @code_in_number - code >= 0
+        @code_in_signs << value
+        @code_in_number -= code
+      end
+    end
+  end
+
   def need_to_reverse?
-    if @code - REVERSE_CODE >= 0
-      @code -= REVERSE_CODE
+    if @code_in_number - REVERSE_CODE >= 0
+      @code_in_number -= REVERSE_CODE
       true
     end
   end
