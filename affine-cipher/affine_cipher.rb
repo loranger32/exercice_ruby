@@ -2,6 +2,7 @@ class Affine
 
   ALPHABET = ('a'..'z').to_a
   ALPHABET_SIZE = 26
+  VALID_CHARACTERS = /[a-z]|\d/i
 
   def initialize(first_key, second_key)
     @first_key = validate_first_key(first_key)
@@ -12,13 +13,13 @@ class Affine
   end
 
   def encode(string)
-    characters = string.downcase.scan(/[a-z]|\d/i)
+    characters = string.downcase.scan(VALID_CHARACTERS)
     raw_conversion = characters.map { |char| convert_with(char, @encoding) }
-    format_cipher_text(raw_conversion)
+    raw_conversion.each_slice(5).map(&:join).join(' ')
   end
 
   def decode(string)
-    string.scan(/[a-z]|\d/i).map { |char| convert_with(char, @decoding) }.join('')
+    string.scan(VALID_CHARACTERS).map { |char| convert_with(char, @decoding) }.join('')
   end
 
   private
@@ -32,15 +33,6 @@ class Affine
   
     converted_token = operation.call(ALPHABET.index(char))
     ALPHABET[converted_token]
-  end
-
-  def format_cipher_text(raw_text)
-    formatted_output = ''
-    raw_text.each_with_index do |char, index|
-      formatted_output << ' ' if index % 5 == 0 && index != 0
-      formatted_output << char
-    end
-    formatted_output
   end
 
   def compute_mmi(first_value, modulo_value)
