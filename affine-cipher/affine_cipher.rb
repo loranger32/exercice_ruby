@@ -7,16 +7,18 @@ class Affine
     @first_key = validate_first_key(first_key)
     @second_key = second_key
     @mmi = compute_mmi(@first_key, ALPHABET_SIZE)
+    @encoding = Proc.new { |token| ((token * @first_key) + @second_key) % ALPHABET_SIZE }
+    @decoding = Proc.new { |token| (@mmi * (token - @second_key)) % ALPHABET_SIZE }
   end
 
   def encode(string)
     characters = string.downcase.scan(/[a-z]|\d/i)
-    raw_conversion = characters.map { |char| encode_character(char) }
+    raw_conversion = characters.map { |char| convert_with(char, @encoding) }
     format_cipher_text(raw_conversion)
   end
 
   def decode(string)
-    string.scan(/[a-z]|\d/i).map { |char| decode_character(char) }.join('')
+    string.scan(/[a-z]|\d/i).map { |char| convert_with(char, @decoding) }.join('')
   end
 
   private
@@ -29,11 +31,10 @@ class Affine
     end
   end
 
-  def encode_character(char)
+  def convert_with(char, operation)
     return char if char.match?(/\d/)
   
-    token = ALPHABET.index(char)
-    converted_token = ((token * @first_key) + @second_key) % ALPHABET_SIZE
+    converted_token = operation.call(ALPHABET.index(char))
     ALPHABET[converted_token]
   end
 
@@ -44,14 +45,6 @@ class Affine
       formatted_output << char
     end
     formatted_output
-  end
-
-  def decode_character(char)
-    return char if char.match?(/\d/)
-
-    token = ALPHABET.index(char)
-    converted_token = (@mmi * (token - @second_key)) % ALPHABET_SIZE
-    ALPHABET[converted_token]
   end
 
   def compute_mmi(first_value, modulo_value)
