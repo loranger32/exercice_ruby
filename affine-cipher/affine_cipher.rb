@@ -15,6 +15,7 @@ class Affine
   def encode(string)
     characters = string.downcase.scan(VALID_CHARACTERS)
     raw_conversion = characters.map { |char| convert_with(char, @encoding) }
+    #format output
     raw_conversion.each_slice(5).map(&:join).join(' ')
   end
 
