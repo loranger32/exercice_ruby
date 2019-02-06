@@ -7,7 +7,7 @@ module Isogram
   end
 
   def format_input(input)
-    input.gsub(/-|\s/, '').downcase.chars
+    input.downcase.scan(/\w/)
   end
 
   def unique_letters?(letters)
