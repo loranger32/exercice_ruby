@@ -24,11 +24,7 @@ class Affine
   private
 
   def validate_first_key(key)
-    if ALPHABET_SIZE.gcd(key) == 1
-      key
-    else
-      raise ArgumentError, "Error, a and m must be coprimes"
-    end
+    ALPHABET_SIZE.gcd(key) == 1 ? key : raise(ArgumentError, "Error, a and m must be coprimes")
   end
 
   def convert_with(char, operation)
