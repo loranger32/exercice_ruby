@@ -14,19 +14,21 @@ class HighScores
   end
 
   def personal_top
-    if scores.size >= 3
-      scores.sort[-3..-1].reverse
-    else
-      scores.sort.reverse
-    end
+    scores.max(3)
   end
 
   def report
-    if latest == personal_best
-      "Your latest score was #{personal_best}. That's your personal best!"
+    "Your latest score was #{latest}. " + compare_to_best
+  end
+
+  private
+
+  def compare_to_best
+    difference = personal_best - latest
+    if difference.zero?
+      "That's your personal best!"
     else
-      difference = personal_best - latest
-      "Your latest score was #{latest}. That's #{difference} short of your personal best!"
+      "That's #{difference} short of your personal best!"
     end
   end
 end
