@@ -25,16 +25,3 @@ class Allergies
     end
   end
 end
-
-# Problem:
-
-# I think I have the solution, but the last test fails. I do not understand why.
-
-Allergies.new(506).list.sort
-# This retruns:
-# ["cats", "chocolate", "peanuts", "pollen", "strawberries", "tomatoes"]
-
-# According to the test suite, it should return :
-# ["cats", "chocolate", "eggs", "pollen", "shellfish", "strawberries", "tomatoes"]
-
-# Problem is thus 'shellfish', which is not returned in my solution.
