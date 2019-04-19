@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require_relative 'allergies'
+require_relative 'allergies_others'
 
 # Common test data version: 1.2.0 17a2ab2
 class AllergiesTest < Minitest::Test
@@ -91,7 +91,7 @@ class AllergiesTest < Minitest::Test
   end
 
   def test_ignore_non_allergen_score_parts
-    skip
+    #skip
     allergies = Allergies.new(509)
     expected_items = ["cats", "chocolate", "eggs", "pollen", "shellfish", "strawberries", "tomatoes"]
     assert_equal expected_items, allergies.list.sort
