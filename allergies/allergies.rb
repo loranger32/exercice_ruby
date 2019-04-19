@@ -25,6 +25,3 @@ class Allergies
     end
   end
 end
-
-p Allergies.new(506).list.sort
-p ["cats", "chocolate", "eggs", "pollen", "shellfish", "strawberries", "tomatoes"]
