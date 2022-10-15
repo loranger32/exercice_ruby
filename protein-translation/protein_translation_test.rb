@@ -52,21 +52,18 @@ class TranslationTest < Minitest::Test
   end
 
   def test_stops_translation_if_stop_codon_present
-    skip
     strand = 'AUGUUUUAA'
     expected = %w[Methionine Phenylalanine]
     assert_equal expected, Translation.of_rna(strand)
   end
 
   def test_stops_translation_of_longer_strand
-    skip
     strand = 'UGGUGUUAUUAAUGGUUU'
     expected = %w[Tryptophan Cysteine Tyrosine]
     assert_equal expected, Translation.of_rna(strand)
   end
 
   def test_invalid_codons
-    skip
     strand = 'CARROT'
     assert_raises(InvalidCodonError) do
       Translation.of_rna(strand)

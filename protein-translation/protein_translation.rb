@@ -1,3 +1,4 @@
+class InvalidCodonError < StandardError; end
 module Translation
  CODONS =  {"AUG" => "Methionine",
   "UUU" => "Phenylalanine",
@@ -18,6 +19,16 @@ module Translation
   "UGA" => "STOP"}.freeze
 
   def self.of_codon(codon)
-    CODONS[codon]
+    protein = CODONS[codon]
+    raise InvalidCodonError if protein.nil?
+    protein
+  end
+
+  def self.of_rna(strand)
+    strand.chars.each_slice(3).with_object([]) do |codon, result|
+      protein = of_codon(codon.join)
+      return result if protein == "STOP"
+      result << protein
+    end
   end
 end
