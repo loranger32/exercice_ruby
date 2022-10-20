@@ -1,7 +1,16 @@
-=begin
-Write your code for the 'Simple Cipher' exercise in this file. Make the tests in
-`simple_cipher_test.rb` pass.
+class Cipher
+  KEYS = ('a'..'z').to_a.freeze
 
-To get started with TDD, see the `README.md` file in your
-`ruby/simple-cipher` directory.
-=end
+  attr_reader :key
+
+  def initialize(key)
+    validate_key(key)
+    @key = key
+  end
+
+  private
+
+  def validate_key(key)
+    raise ArgumentError unless key.match?(/\A[a-z]+\z/)
+  end
+end

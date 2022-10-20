@@ -1,4 +1,6 @@
 require 'minitest/autorun'
+require "minitest/reporters"
+Minitest::Reporters.use! Minitest::Reporters::SpecReporter.new
 require_relative 'poker'
 
 class PokerTest < Minitest::Test
@@ -11,7 +13,7 @@ class PokerTest < Minitest::Test
   end
 
   def test_highest_card
-    skip
+    #skip
     high_of_8 = %w[4S 5H 6S 8D 2H]
     high_of_queen = %w[2S 4H 6C 9D QH]
     game = Poker.new([high_of_8, high_of_queen])
