@@ -62,9 +62,12 @@ class TwoBucket
   end
 
   def moves
+    # No need to put in the loop since this is an edge case
+    # that can be detected from the beginning
+    fill_other! if other_is_same_size_as_target?
+        
     while target_not_reached?
       check_rule!
-
       if other_is_full?
         empty_other!
       elsif can_pour_from_source?
@@ -112,6 +115,11 @@ class TwoBucket
     @other.empty!
   end
 
+  def fill_other!
+    @other.fill!
+    @counter += 1
+  end
+
   def fill_source!
     @source.fill!
   end
@@ -142,5 +150,9 @@ class TwoBucket
   
   def target_not_reached?
     @source.quantity != @target && @other.quantity != @target
+  end
+
+  def other_is_same_size_as_target?
+    @other.size == @target && @other.empty?
   end
 end
